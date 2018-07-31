@@ -8,32 +8,22 @@
 
 import UIKit
 import AudioToolbox
-import AVFoundation
 
-class TableViewController: UITableViewController, UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        filterContentForSearchText(searchController.searchBar.text!)
-    }
+class TableViewController: UITableViewController {
     
     var soundList: [Sound] = [Sound]()
     var filteredSoundList: [Sound] = [Sound]()
-    
     let searchController = UISearchController(searchResultsController: nil)
-//    var audioFileList: [URL] = [URL]()
-//    var soundIdList: [SystemSoundID] = [SystemSoundID]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.placeholder = "Search Candies"
+        searchController.searchBar.placeholder = "Search Sound"
         navigationItem.searchController = searchController
         definesPresentationContext = true
-        
         loadAudioFiles()
-        
     }
 
     func loadAudioFiles() {
@@ -98,9 +88,16 @@ class TableViewController: UITableViewController, UISearchResultsUpdating {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
 
+//MARK: Search
+extension TableViewController: UISearchResultsUpdating {
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchController.searchBar.text!)
+    }
+    
     func searchBarIsEmpty() -> Bool {
-        // Returns true if the text is empty or nil
         return searchController.searchBar.text?.isEmpty ?? true
     }
     
