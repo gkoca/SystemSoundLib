@@ -30,22 +30,22 @@ class TableViewController: UITableViewController {
         let fileManager = FileManager()
         let directoryURL = URL(fileURLWithPath: "/System/Library/Audio/UISounds")
         
-        let enumarator = fileManager.enumerator(at: directoryURL, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsHiddenFiles) { (url, err) -> Bool in
+		let enumarator = fileManager.enumerator(at: directoryURL, includingPropertiesForKeys: [.isDirectoryKey], options: .skipsHiddenFiles) { (url, err) -> Bool in
             return true
         }
-        
-        for e in enumarator! {
-            if let url = e as? URL {
-                if let resourceValue = try? url.resourceValues(forKeys: [.isDirectoryKey]) {
-                    if let isDirectory = resourceValue.isDirectory, isDirectory == false {
-                        var soundId : SystemSoundID = 0
-                        AudioServicesCreateSystemSoundID(url as CFURL, &soundId)
-                        let sound = Sound(url: url, name: url.lastPathComponent, soundId: soundId)
-                        soundList.append(sound)
-                    }
-                }
-            }
-        }
+		
+		if let fileEnumerator = enumarator {
+			fileEnumerator.forEach {
+				if let url = $0 as? URL,
+					let resourceValue = try? url.resourceValues(forKeys: [.isDirectoryKey]),
+					let isDirectory = resourceValue.isDirectory, isDirectory == false {
+					var soundId : SystemSoundID = 0
+					AudioServicesCreateSystemSoundID(url as CFURL, &soundId)
+					let sound = Sound(url: url, name: url.lastPathComponent, soundId: soundId)
+					soundList.append(sound)
+				}
+			}
+		}
     }
     
     override func didReceiveMemoryWarning() {
@@ -71,8 +71,6 @@ class TableViewController: UITableViewController {
             cell.textLabel?.text = soundList[indexPath.row].name
             cell.detailTextLabel?.text = "sound Id: \(soundList[indexPath.row].soundId)"
         }
-        
-        
         return cell
     }
     
@@ -84,8 +82,6 @@ class TableViewController: UITableViewController {
             AudioServicesPlayAlertSound(soundList[indexPath.row].soundId)
             print("playing sound id : \(soundList[indexPath.row].soundId)")
         }
-        
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -56,13 +56,13 @@
 		7643113521107B44009B1153 /* System Sound Lib */ = {
 			isa = PBXGroup;
 			children = (
+				7643114221107B45009B1153 /* Info.plist */,
 				7643113621107B44009B1153 /* AppDelegate.swift */,
 				7643114A21109101009B1153 /* Sound.swift */,
-				7643113A21107B44009B1153 /* Main.storyboard */,
+				7643114821107BFA009B1153 /* TableViewController.swift */,
 				7643113D21107B45009B1153 /* Assets.xcassets */,
 				7643113F21107B45009B1153 /* LaunchScreen.storyboard */,
-				7643114221107B45009B1153 /* Info.plist */,
-				7643114821107BFA009B1153 /* TableViewController.swift */,
+				7643113A21107B44009B1153 /* Main.storyboard */,
 			);
 			path = "System Sound Lib";
 			sourceTree = "<group>";
